@@ -1,7 +1,7 @@
 ﻿using Clockify.Core.Messages.Notifications;
 using Clockify.Tracking.Domain.Commands;
 using Clockify.Tracking.Domain.Queries;
-using Clockify.WebAPI.Filters;
+using Clockify.WebAPI.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,16 +27,16 @@ namespace Clockify.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] DayEntryFilter filter)
+        public async Task<IActionResult> Get([FromQuery] DayEntryFilterDTO filter)
         {
-            var days = await _queries.LoadMonth(UserId, filter.Start, filter.End);
+            var days = await _queries.LoadRange(UserId, filter.Start, filter.End);
             return Json(days);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DateTime time)
+        public async Task<IActionResult> Post([FromBody] PointDTO dto)
         {
-            var command = new CreatePointCommand(UserId, time);
+            var command = new CreatePointCommand(UserId, dto.Time);
             await _mediator.Send(command);
 
             if (HasNotifications())
@@ -45,10 +45,10 @@ namespace Clockify.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] string id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var command = new DeletePointCommand(UserId, Guid.Parse(id));
+            var command = new DeletePointCommand(UserId, id);
             await _mediator.Send(command);
 
             if (HasNotifications())

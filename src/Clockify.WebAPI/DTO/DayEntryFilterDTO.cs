@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Clockify.WebAPI.Filters
+namespace Clockify.WebAPI.DTO
 {
-    public class DayEntryFilter
+    public class DayEntryFilterDTO
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

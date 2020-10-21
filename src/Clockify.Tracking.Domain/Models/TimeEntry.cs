@@ -14,7 +14,7 @@ namespace Clockify.Tracking.Domain.Models
         public TimeEntry(Guid dayId, DateTime date)
         {
             DayId = dayId;
-            Date = date;
+            Date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0);
             CreatedAt = DateTime.Now;
         }
     }

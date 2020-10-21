@@ -5,9 +5,13 @@ namespace Clockify.Tracking.Domain.Queries.ViewModels
 {
     public class PeriodViewModel
     {
-        public TimeSpan TotalExtraTime { get; set; }
-        public TimeSpan TotalMissingTime { get; set; }
-        public TimeSpan TotalWorkedTime { get; set; }
+        public string TotalWorkHours { get; set; }
+        public string TotalExtraTime { get; set; }
+        public string TotalMissingTime { get; set; }
+        public string TotalWorkedTime { get; set; }
+        public double WorkedTimePercentage { get; set; }
+        public double BankTimePercentage { get; set; }
+        public int BankSign { get; set; }
         public List<DayEntryViewModel> Days { get; set; }
     }
 

@@ -6,7 +6,7 @@ namespace Clockify.Tracking.Domain.Queries
 {
     public interface ITrackingQueries
     {
-        Task<PeriodViewModel> LoadMonth(Guid userId, DateTime start, DateTime end);
+        Task<PeriodViewModel> LoadRange(Guid userId, DateTime start, DateTime end);
         Task<ConfigurationViewModel> LoadConfiguration(Guid userId);
     }
 }
