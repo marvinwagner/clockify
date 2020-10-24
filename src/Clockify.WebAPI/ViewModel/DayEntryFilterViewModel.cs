@@ -2,7 +2,7 @@
 
 namespace Clockify.WebAPI.DTO
 {
-    public class DayEntryFilterDTO
+    public class DayEntryFilterViewModel
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

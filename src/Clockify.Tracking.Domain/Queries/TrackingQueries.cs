@@ -1,7 +1,9 @@
 ﻿using Clockify.Core.Extensions;
+using Clockify.Core.Messages.Notifications;
 using Clockify.Tracking.Domain.Data;
 using Clockify.Tracking.Domain.Models;
 using Clockify.Tracking.Domain.Queries.ViewModels;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,13 @@ namespace Clockify.Tracking.Domain.Queries
     {
         private readonly IDayEntryRepository _dayEntryRepository;
         private readonly IConfigurationRepository _configurationRepository;
+        private readonly IMediator _mediator;
 
-        public TrackingQueries(IDayEntryRepository dayEntryRepository, IConfigurationRepository configurationRepository)
+        public TrackingQueries(IDayEntryRepository dayEntryRepository, IConfigurationRepository configurationRepository, IMediator mediator)
         {
             _dayEntryRepository = dayEntryRepository;
             _configurationRepository = configurationRepository;
+            _mediator = mediator;
         }
 
         public async Task<ConfigurationViewModel> LoadConfiguration(Guid userId)
@@ -38,6 +42,11 @@ namespace Clockify.Tracking.Domain.Queries
         {
             var days = await _dayEntryRepository.FindByPeriod(userId, start, end);
             var config = await _configurationRepository.FindByUser(userId);
+            if (config == null)
+            {
+                await _mediator.Publish(new DomainNotification("Load points", "User doesn't have a configuration"));
+                return null;
+            }
 
             var result = new PeriodViewModel();
             result.Days = new List<DayEntryViewModel>();
@@ -46,21 +55,21 @@ namespace Clockify.Tracking.Domain.Queries
                 result.Days.Add(new DayEntryViewModel
                 {
                     Id = day.Id,
-                    Date = day.Date,//.ToString("yyyy-MM-dd"),
-                    ExtraTime = day.ExtraTime,//.ToString(@"hh\:mm"),
-                    MissingTime = day.MissingTime,//.ToString(@"hh\:mm"),
+                    Date = day.Date,
+                    ExtraTime = day.ExtraTime,
+                    MissingTime = day.MissingTime,
                     WorkedTime = day.WorkedTime,
                     Points = day.Points.OrderBy(p => p.Date).Select(p => new TimeEntryViewModel
                     {
                         Id = p.Id,
-                        Time = p.Date,//.ToString("HH:mm"),
-                        CreatedAt = p.Date//.ToString("g", CultureInfo.CurrentCulture)
+                        Time = p.Date,
+                        CreatedAt = p.Date
                     })
                 });
             }
             var workedTime = result.Days.Sum(x => x.WorkedTime);
-            var missingTime = TimeSpan.Zero; //result.Days.Sum(x => x.MissingTime);
-            var extraTime = TimeSpan.Zero;//result.Days.Sum(x => x.ExtraTime);
+            var missingTime = TimeSpan.Zero;
+            var extraTime = TimeSpan.Zero;
             
             var totalHours = config.WorkingTime * GetWorkingDays(start, end);
             result.TotalWorkHours = string.Format("{0}hr {1}m",

@@ -87,15 +87,15 @@ namespace Clockify.Tracking.DomainTests
             var lunchTime = new TimeSpan(1, 0, 0);
             var toleranceTime = new TimeSpan(0, 10, 0);
             var workingTime = new TimeSpan(8, 0, 0);
-            var configuration = new Configuration(_userId, lunchTime, toleranceTime, workingTime);
+            var config = new Configuration(_userId, lunchTime, toleranceTime, workingTime);
 
             // Act
-            day.AddPoint(point1, configuration);
-            day.AddPoint(point2, configuration);
-            day.AddPoint(point3, configuration);
-            day.AddPoint(point4, configuration);
-            day.AddPoint(point5, configuration);
-            day.AddPoint(point6, configuration);
+            day.AddPoint(point1, config);
+            day.AddPoint(point2, config);
+            day.AddPoint(point3, config);
+            day.AddPoint(point4, config);
+            day.AddPoint(point5, config);
+            day.AddPoint(point6, config);
 
             // Test
             Assert.Equal(new TimeSpan(0, 0, 0), day.MissingTime);

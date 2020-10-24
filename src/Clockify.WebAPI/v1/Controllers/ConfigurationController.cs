@@ -2,19 +2,19 @@
 using Clockify.Tracking.Domain.Commands;
 using Clockify.Tracking.Domain.Queries;
 using Clockify.Tracking.Domain.Queries.ViewModels;
+using Clockify.WebAPI.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clockify.WebAPI.Controllers
+namespace Clockify.WebAPI.v1.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ConfigurationController : ControllerBase
+    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class ConfigurationController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly ITrackingQueries _queries;

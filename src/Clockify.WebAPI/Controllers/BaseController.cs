@@ -1,4 +1,5 @@
 ﻿using Clockify.Core.Messages.Notifications;
+using Clockify.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,13 +8,18 @@ using System.Linq;
 
 namespace Clockify.WebAPI.Controllers
 {
-    public abstract class ControllerBase : Controller
+    [ApiController]
+    public abstract class BaseController : Controller
     {
         private readonly DomainNotificationHandler _notifications;
 
-        protected Guid UserId = Guid.Parse("4885e451-b0e4-4490-b959-04fabc806d32"); // TODO get from auth service
+        protected Guid UserId => GetUserId();
+        protected Guid GetUserId()
+        {
+            return User.Identity.IsAuthenticated ? Guid.Parse(User.GetUserId()) : Guid.Empty;
+        }
 
-        protected ControllerBase(INotificationHandler<DomainNotification> notifications)
+        protected BaseController(INotificationHandler<DomainNotification> notifications)
         {
             _notifications = (DomainNotificationHandler)notifications;
         }

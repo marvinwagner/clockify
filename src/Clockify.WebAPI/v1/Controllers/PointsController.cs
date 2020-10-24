@@ -1,18 +1,22 @@
-﻿using Clockify.Core.Messages.Notifications;
+﻿using Clockify.Core.Domain;
+using Clockify.Core.Messages.Notifications;
 using Clockify.Tracking.Domain.Commands;
 using Clockify.Tracking.Domain.Queries;
+using Clockify.WebAPI.Controllers;
 using Clockify.WebAPI.DTO;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Clockify.WebAPI.Controllers
+namespace Clockify.WebAPI.v1.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PointsController : ControllerBase
+    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class PointsController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly ITrackingQueries _queries;
@@ -27,14 +31,18 @@ namespace Clockify.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] DayEntryFilterDTO filter)
+        public async Task<IActionResult> Get([FromQuery] DayEntryFilterViewModel filter)
         {
             var days = await _queries.LoadRange(UserId, filter.Start, filter.End);
+
+            if (HasNotifications())
+                return BadRequest(LoadErrorMessages());
+
             return Json(days);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PointDTO dto)
+        public async Task<IActionResult> Post([FromBody] PointViewModel dto)
         {
             var command = new CreatePointCommand(UserId, dto.Time);
             await _mediator.Send(command);
