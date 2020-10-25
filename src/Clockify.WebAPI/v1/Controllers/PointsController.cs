@@ -1,5 +1,4 @@
-﻿using Clockify.Core.Domain;
-using Clockify.Core.Messages.Notifications;
+﻿using Clockify.Core.Messages.Notifications;
 using Clockify.Tracking.Domain.Commands;
 using Clockify.Tracking.Domain.Queries;
 using Clockify.WebAPI.Controllers;
@@ -31,7 +30,7 @@ namespace Clockify.WebAPI.v1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] DayEntryFilterViewModel filter)
+        public async Task<IActionResult> Get([FromQuery] DayEntryFilterDTO filter)
         {
             var days = await _queries.LoadRange(UserId, filter.Start, filter.End);
 
@@ -42,7 +41,7 @@ namespace Clockify.WebAPI.v1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PointViewModel dto)
+        public async Task<IActionResult> Post([FromBody] PointDTO dto)
         {
             var command = new CreatePointCommand(UserId, dto.Time);
             await _mediator.Send(command);

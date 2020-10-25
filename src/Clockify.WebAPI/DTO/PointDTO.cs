@@ -2,7 +2,7 @@
 
 namespace Clockify.WebAPI.DTO
 {
-    public class PointViewModel
+    public class PointDTO
     {
         public Guid Id { get; set; }
         public DateTime Time { get; set; }

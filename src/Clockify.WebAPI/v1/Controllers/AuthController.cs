@@ -5,9 +5,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Clockify.Auth.WebAPI.Extensions;
-using Clockify.Auth.WebAPI.ViewModel;
 using Clockify.Core.Messages.Notifications;
+using Clockify.Tracking.Domain.Queries.ViewModels;
 using Clockify.WebAPI.Controllers;
+using Clockify.WebAPI.DTO;
 using KissLog;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,6 @@ namespace Clockify.WebAPI.v1.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthController : BaseController
     {
-        //private readonly ILogger<AuthController> _logger;
         private readonly ILogger _logger;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -76,7 +76,7 @@ namespace Clockify.WebAPI.v1.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserViewModel userModel)
+        public async Task<IActionResult> Register(RegisterUserDTO userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(userModel);
@@ -99,7 +99,7 @@ namespace Clockify.WebAPI.v1.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserViewModel userModel)
+        public async Task<IActionResult> Login(LoginUserDTO userModel)
         {
             _logger.Info($"The method {GetType().Name} was called.");
 
