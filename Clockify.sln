@@ -27,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ACD92813
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clockify.Tracking.DomainTests", "tests\Clockify.Tracking.DomainTests\Clockify.Tracking.DomainTests.csproj", "{589AFC3F-7D76-4C0F-BFE2-6095BF05AA1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockify.Auth.WebAPI", "src\Clockify.Auth.WebAPI\Clockify.Auth.WebAPI.csproj", "{1E9AFA59-E423-4155-8590-25AE963C25D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{589AFC3F-7D76-4C0F-BFE2-6095BF05AA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{589AFC3F-7D76-4C0F-BFE2-6095BF05AA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{589AFC3F-7D76-4C0F-BFE2-6095BF05AA1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E9AFA59-E423-4155-8590-25AE963C25D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E9AFA59-E423-4155-8590-25AE963C25D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E9AFA59-E423-4155-8590-25AE963C25D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E9AFA59-E423-4155-8590-25AE963C25D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,7 +72,6 @@ Global
 		{5CC7A045-C761-4661-9BAD-33B065D11C38} = {B7235095-78B6-4735-BE7B-D8906B3C1E60}
 		{ACD92813-7973-4775-9590-CAE5C735EB94} = {4CE78592-814A-425C-AA9F-29665D418365}
 		{589AFC3F-7D76-4C0F-BFE2-6095BF05AA1D} = {ACD92813-7973-4775-9590-CAE5C735EB94}
-		{1E9AFA59-E423-4155-8590-25AE963C25D2} = {A7D1F82F-9022-4CA0-8E99-7DB48D22D6E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E56389FC-EFE4-461E-BAB2-8B0EC7DCE801}
